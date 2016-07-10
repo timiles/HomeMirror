@@ -233,6 +233,8 @@ public class ConfigurationSettings {
         return !TextUtils.isEmpty(mStockTickerSymbol);
     }
 
+    public boolean showBitcoinPrice() { return true; }
+
     public String getStockTickerSymbol() {
         return mStockTickerSymbol;
     }

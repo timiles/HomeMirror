@@ -134,6 +134,15 @@
             tools:visibility="gone" />
 
         <TextView
+            style="@style/MirrorListText"
+            tools:visibility="gone"
+            android:id="@+id/bitcoin_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/stock"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/mood_text"
             style="@style/MirrorListText"
             android:layout_width="match_parent"

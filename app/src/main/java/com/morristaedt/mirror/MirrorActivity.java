@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
 import com.morristaedt.mirror.modules.BirthdayModule;
+import com.morristaedt.mirror.modules.BitcoinPriceModule;
 import com.morristaedt.mirror.modules.CalendarModule;
 import com.morristaedt.mirror.modules.ChoresModule;
 import com.morristaedt.mirror.modules.CountdownModule;
@@ -45,6 +46,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mHelloText;
     private TextView mBikeTodayText;
     private TextView mStockText;
+    private TextView mBitcoinPrice;
     private TextView mMoodText;
     private View mWaterPlants;
     private View mGroceryList;
@@ -75,6 +77,18 @@ public class MirrorActivity extends ActionBarActivity {
             } else {
                 mStockText.setVisibility(View.VISIBLE);
                 mStockText.setText("$" + quoteResponse.symbol + " $" + quoteResponse.LastTradePriceOnly);
+            }
+        }
+    };
+
+    private BitcoinPriceModule.CurrentPriceListener mBitcoinPriceListener = new BitcoinPriceModule.CurrentPriceListener() {
+        @Override
+        public void onBitcoinPriceUpdated(Float price) {
+            if (price == null) {
+                mBitcoinPrice.setVisibility(View.GONE);
+            } else {
+                mBitcoinPrice.setVisibility(View.VISIBLE);
+                mBitcoinPrice.setText("1 BTC = $" + price);
             }
         }
     };
@@ -186,6 +200,7 @@ public class MirrorActivity extends ActionBarActivity {
         mGroceryList = findViewById(R.id.grocery_list);
         mBikeTodayText = (TextView) findViewById(R.id.can_bike);
         mStockText = (TextView) findViewById(R.id.stock_text);
+        mBitcoinPrice = (TextView) findViewById(R.id.bitcoin_price);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mXKCDImage = (ImageView) findViewById(R.id.xkcd_image);
         mNewsHeadline = (TextView) findViewById(R.id.news_headline);
@@ -285,6 +300,12 @@ public class MirrorActivity extends ActionBarActivity {
             YahooFinanceModule.getStockForToday(mConfigSettings.getStockTickerSymbol(), mStockListener);
         } else {
             mStockText.setVisibility(View.GONE);
+        }
+
+        if (mConfigSettings.showBitcoinPrice()) {
+            BitcoinPriceModule.getBitcoinPrice(mBitcoinPriceListener);
+        } else {
+            mBitcoinPrice.setVisibility(View.GONE);
         }
 
         if (mConfigSettings.showMoodDetection()) {
