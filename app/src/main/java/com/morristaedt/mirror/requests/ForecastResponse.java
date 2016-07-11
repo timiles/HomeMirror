@@ -32,7 +32,8 @@ public class ForecastResponse {
                 int hourOfDay = hourCalendar.get(Calendar.HOUR_OF_DAY);
                 if (hourOfDay >= 8 && hourOfDay <= 19) {
                     day = hourCalendar.get(Calendar.DAY_OF_WEEK);
-                    if (hour.precipProbability >= 0.3) {
+
+                    if (hourOfDay >= 17 && hour.precipProbability >= 0.3) {
                         mightRain = true;
                     }
                     if (hour.temperature < minTemp) {
