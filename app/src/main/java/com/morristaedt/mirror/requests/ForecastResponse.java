@@ -1,5 +1,6 @@
 package com.morristaedt.mirror.requests;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -14,6 +15,46 @@ public class ForecastResponse {
     public ForecastCurrently currently;
     public ForecastHourly hourly;
 
+    public String getSummary() {
+        if (hourly == null || hourly.data == null) {
+            return null;
+        }
+
+        int day = -1;
+        float minTemp = 999, maxTemp = -999;
+        boolean mightRain = false;
+
+        for (ForecastResponse.Hour hour : hourly.data) {
+            Calendar hourCalendar = hour.getCalendar();
+
+            // if we haven't started counting yet, or if it's the day we're counting:
+            if (day == -1 || day == hourCalendar.get(Calendar.DAY_OF_WEEK)) {
+                int hourOfDay = hourCalendar.get(Calendar.HOUR_OF_DAY);
+                if (hourOfDay >= 8 && hourOfDay <= 19) {
+                    day = hourCalendar.get(Calendar.DAY_OF_WEEK);
+                    if (hour.precipProbability >= 0.3) {
+                        mightRain = true;
+                    }
+                    if (hour.temperature < minTemp) {
+                        minTemp = hour.temperature;
+                    }
+                    if (hour.temperature > maxTemp) {
+                        maxTemp = hour.temperature;
+                    }
+                }
+            }
+        }
+
+        String[] dayNames = new DateFormatSymbols().getShortWeekdays();
+
+        return String.format("%s\n%s: %s-%s°%s",
+                hourly.summary,
+                dayNames[day],
+                Math.round(minTemp),
+                Math.round(maxTemp),
+                mightRain ? " ☔" : "");
+    }
+
     public class ForecastCurrently {
         public String summary;
         public float temperature;
@@ -24,7 +65,7 @@ public class ForecastResponse {
     }
 
     public class ForecastHourly {
-        String summary;
+        public String summary;
         public ArrayList<Hour> data;
     }
 
