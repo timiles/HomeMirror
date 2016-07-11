@@ -15,7 +15,7 @@ public class ForecastResponse {
     public ForecastCurrently currently;
     public ForecastHourly hourly;
 
-    public String getSummary() {
+    public String getNextDaytimeSummary() {
         if (hourly == null || hourly.data == null) {
             return null;
         }

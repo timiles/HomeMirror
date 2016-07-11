@@ -59,7 +59,7 @@ public class ForecastModule {
             @Override
             protected void onPostExecute(ForecastResponse forecastResponse) {
                 if (forecastResponse != null) {
-                    listener.onWeatherToday(forecastResponse.getSummary());
+                    listener.onWeatherToday(forecastResponse.getNextDaytimeSummary());
 
                     if (forecastResponse.hourly != null && forecastResponse.hourly.data != null && (ConfigurationSettings.isDemoMode() || WeekUtil.isWeekdayBeforeFive())) {
                         listener.onShouldBike(true, shouldBikeToday(forecastResponse.hourly.data));
