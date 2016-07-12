@@ -1,5 +1,7 @@
 package com.morristaedt.mirror.requests;
 
+import com.morristaedt.mirror.utils.TemporalMeanCalculator;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +26,8 @@ public class ForecastResponse {
         float minTemp = 999, maxTemp = -999;
         boolean mightRain = false;
 
+        TemporalMeanCalculator temporalMeanCalculator = new TemporalMeanCalculator();
+
         for (ForecastResponse.Hour hour : hourly.data) {
             Calendar hourCalendar = hour.getCalendar();
 
@@ -42,16 +46,18 @@ public class ForecastResponse {
                     if (hour.temperature > maxTemp) {
                         maxTemp = hour.temperature;
                     }
+                    temporalMeanCalculator.addDataPoint(hour.time, hour.temperature);
                 }
             }
         }
 
         String[] dayNames = new DateFormatSymbols().getShortWeekdays();
 
-        return String.format("%s\n%s: %s-%s°%s",
+        return String.format("%s\n%s: %s-%s-%s°%s",
                 hourly.summary,
                 dayNames[day],
                 Math.round(minTemp),
+                Math.round(temporalMeanCalculator.calculateMean()),
                 Math.round(maxTemp),
                 mightRain ? " ☔" : "");
     }
