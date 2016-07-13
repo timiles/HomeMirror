@@ -23,6 +23,7 @@ import com.morristaedt.mirror.modules.CalendarModule;
 import com.morristaedt.mirror.modules.ChoresModule;
 import com.morristaedt.mirror.modules.CountdownModule;
 import com.morristaedt.mirror.modules.DayModule;
+import com.morristaedt.mirror.modules.ExchangeRateModule;
 import com.morristaedt.mirror.modules.ForecastModule;
 import com.morristaedt.mirror.modules.MoodModule;
 import com.morristaedt.mirror.modules.NewsModule;
@@ -49,6 +50,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mBikeTodayText;
     private TextView mStockText;
     private TextView mBitcoinPrice;
+    private TextView mExchangeRate;
     private TextView mMoodText;
     private View mWaterPlants;
     private View mGroceryList;
@@ -94,6 +96,22 @@ public class MirrorActivity extends ActionBarActivity {
                         Math.round(response.getUsdRate()),
                         Math.round(response.getGbpRate()));
                 mBitcoinPrice.setText(priceString);
+            }
+        }
+    };
+
+    private ExchangeRateModule.ExchangeRateListener mExchangeRateListener = new ExchangeRateModule.ExchangeRateListener() {
+        @Override
+        public void onNewExchangeRate(Float rate) {
+            if (rate == null) {
+                mExchangeRate.setVisibility(View.GONE);
+            } else {
+                mExchangeRate.setVisibility(View.VISIBLE);
+                String exchangeRateString = String.format("1 %s = %s %s",
+                        mConfigSettings.getFromCurrency(),
+                        rate,
+                        mConfigSettings.getToCurrency());
+                mExchangeRate.setText(exchangeRateString);
             }
         }
     };
@@ -207,6 +225,7 @@ public class MirrorActivity extends ActionBarActivity {
         mBikeTodayText = (TextView) findViewById(R.id.can_bike);
         mStockText = (TextView) findViewById(R.id.stock_text);
         mBitcoinPrice = (TextView) findViewById(R.id.bitcoin_price);
+        mExchangeRate = (TextView) findViewById(R.id.exchange_rate);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mXKCDImage = (ImageView) findViewById(R.id.xkcd_image);
         mNewsHeadline = (ScrollTextView) findViewById(R.id.news_headline);
@@ -312,6 +331,15 @@ public class MirrorActivity extends ActionBarActivity {
             BitcoinPriceModule.getBitcoinPrice(mBitcoinPriceListener);
         } else {
             mBitcoinPrice.setVisibility(View.GONE);
+        }
+
+        if (mConfigSettings.showExchangeRate()) {
+            ExchangeRateModule.getExchangeRate(
+                    mConfigSettings.getFromCurrency(),
+                    mConfigSettings.getToCurrency(),
+                    mExchangeRateListener);
+        } else {
+            mExchangeRate.setVisibility(View.GONE);
         }
 
         if (mConfigSettings.showMoodDetection()) {

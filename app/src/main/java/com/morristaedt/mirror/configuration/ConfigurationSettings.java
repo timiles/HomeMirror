@@ -233,11 +233,17 @@ public class ConfigurationSettings {
         return !TextUtils.isEmpty(mStockTickerSymbol);
     }
 
-    public boolean showBitcoinPrice() { return true; }
-
     public String getStockTickerSymbol() {
         return mStockTickerSymbol;
     }
+
+    public boolean showBitcoinPrice() { return true; }
+
+    public boolean showExchangeRate() { return !TextUtils.isEmpty(getFromCurrency()) && !TextUtils.isEmpty(getToCurrency()); }
+
+    public String getFromCurrency() { return "GBP"; }
+
+    public String getToCurrency() { return "EUR"; }
 
     public static boolean isDebugBuild() {
         return BuildConfig.DEBUG;
