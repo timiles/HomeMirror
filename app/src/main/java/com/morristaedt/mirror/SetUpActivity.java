@@ -216,7 +216,7 @@ public class SetUpActivity extends Activity {
         });
 
 
-        findViewById(R.id.launch_button).setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener launchOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveFields();
@@ -227,7 +227,9 @@ public class SetUpActivity extends Activity {
                 Intent intent = new Intent(SetUpActivity.this, MirrorActivity.class);
                 startActivity(intent);
             }
-        });
+        };
+        findViewById(R.id.launch_button_0).setOnClickListener(launchOnClickListener);
+        findViewById(R.id.launch_button_1).setOnClickListener(launchOnClickListener);
     }
 
     @Override
