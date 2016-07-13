@@ -132,7 +132,6 @@
             android:id="@+id/bitcoin_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/stock"
             android:visibility="gone" />
 
         <TextView
@@ -141,7 +140,6 @@
             android:id="@+id/exchange_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/stock"
             android:visibility="gone" />
 
         <TextView

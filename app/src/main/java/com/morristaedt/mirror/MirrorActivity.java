@@ -92,7 +92,7 @@ public class MirrorActivity extends ActionBarActivity {
                 mBitcoinPrice.setVisibility(View.GONE);
             } else {
                 mBitcoinPrice.setVisibility(View.VISIBLE);
-                String priceString = String.format("1 BTC = $%s / £%s",
+                String priceString = String.format("BTC: $%s / £%s",
                         Math.round(response.getUsdRate()),
                         Math.round(response.getGbpRate()));
                 mBitcoinPrice.setText(priceString);
@@ -107,7 +107,7 @@ public class MirrorActivity extends ActionBarActivity {
                 mExchangeRate.setVisibility(View.GONE);
             } else {
                 mExchangeRate.setVisibility(View.VISIBLE);
-                String exchangeRateString = String.format("1 %s = %s %s",
+                String exchangeRateString = String.format("%s: %s %s",
                         mConfigSettings.getFromCurrency(),
                         rate,
                         mConfigSettings.getToCurrency());
