@@ -36,7 +36,8 @@ public class ExchangeRateModule {
 
                 YahooFinanceRequest service = restAdapter.create(YahooFinanceRequest.class);
 
-                String query = "select * from yahoo.finance.xchange where pair in (\"" + fromCurrency + toCurrency + "\")";
+                String currencyPair = fromCurrency + toCurrency;
+                String query = "select * from yahoo.finance.xchange where pair in (\"" + currencyPair + "\")";
                 String env = "store://datatables.org/alltableswithkeys";
                 String format = "json";
                 try {
