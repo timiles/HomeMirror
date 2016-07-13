@@ -31,6 +31,7 @@ import com.morristaedt.mirror.modules.YahooFinanceModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
 import com.morristaedt.mirror.requests.YahooStockResponse;
 import com.morristaedt.mirror.utils.WeekUtil;
+import com.morristaedt.mirror.views.ScrollTextView;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -52,7 +53,7 @@ public class MirrorActivity extends ActionBarActivity {
     private View mGroceryList;
     private ImageView mXKCDImage;
     private MoodModule mMoodModule;
-    private TextView mNewsHeadline;
+    private ScrollTextView mNewsHeadline;
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
     private TextView mCountdownText;
@@ -119,9 +120,10 @@ public class MirrorActivity extends ActionBarActivity {
             if (TextUtils.isEmpty(headline)) {
                 mNewsHeadline.setVisibility(View.GONE);
             } else {
-                mNewsHeadline.setVisibility(View.VISIBLE);
+//                mNewsHeadline.setVisibility(View.VISIBLE);
                 mNewsHeadline.setText(headline);
-                mNewsHeadline.setSelected(true);
+//                mNewsHeadline.setSelected(true);
+                mNewsHeadline.startScroll();
             }
         }
     };
@@ -203,7 +205,7 @@ public class MirrorActivity extends ActionBarActivity {
         mBitcoinPrice = (TextView) findViewById(R.id.bitcoin_price);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mXKCDImage = (ImageView) findViewById(R.id.xkcd_image);
-        mNewsHeadline = (TextView) findViewById(R.id.news_headline);
+        mNewsHeadline = (ScrollTextView) findViewById(R.id.news_headline);
         mCalendarTitleText = (TextView) findViewById(R.id.calendar_title);
         mCalendarDetailsText = (TextView) findViewById(R.id.calendar_details);
         mCountdownText = (TextView) findViewById(R.id.countdown_text);
