@@ -114,20 +114,7 @@
         <com.morristaedt.mirror.views.ScrollTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/news_headline">
-        </com.morristaedt.mirror.views.ScrollTextView>
-
-        <!--<TextView-->
-            <!--android:id="@+id/news_headline"-->
-            <!--style="@style/MirrorMarqueeText"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ellipsize="marquee"-->
-            <!--android:marqueeRepeatLimit="marquee_forever"-->
-            <!--android:singleLine="true"-->
-            <!--android:visibility="gone"-->
-            <!--tools:text="A news headline"-->
-            <!--tools:visiblity="visible" />-->
+            android:id="@+id/news_headline" />
 
         <TextView
             android:id="@+id/stock_text"

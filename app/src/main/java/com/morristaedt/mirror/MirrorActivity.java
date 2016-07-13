@@ -142,9 +142,9 @@ public class MirrorActivity extends ActionBarActivity {
             if (TextUtils.isEmpty(headline)) {
                 mNewsHeadline.setVisibility(View.GONE);
             } else {
-//                mNewsHeadline.setVisibility(View.VISIBLE);
+                mNewsHeadline.setVisibility(View.VISIBLE);
                 mNewsHeadline.setText(headline);
-//                mNewsHeadline.setSelected(true);
+                mNewsHeadline.setSelected(true);
                 mNewsHeadline.startScroll();
             }
         }
