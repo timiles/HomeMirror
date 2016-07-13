@@ -14,13 +14,21 @@ public class TemporalMeanCalculator {
         this.dataPoints.append(time, value);
     }
 
-    public float calculateMean() {
+    public Float calculateMean() {
+        int numberOfDataPoints = this.dataPoints.size();
+        if (numberOfDataPoints == 0) {
+            return null;
+        }
+        if (numberOfDataPoints == 1) {
+            return this.dataPoints.valueAt(0);
+        }
+
         long firstTime = this.dataPoints.keyAt(0);
         long previousTime = firstTime;
         float previousValue = this.dataPoints.valueAt(0);
         float total = 0;
 
-        for (int i = 0; i < this.dataPoints.size(); i++) {
+        for (int i = 0; i < numberOfDataPoints; i++) {
             long time = this.dataPoints.keyAt(i);
             float value = this.dataPoints.valueAt(i);
 

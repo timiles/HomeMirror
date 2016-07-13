@@ -52,12 +52,13 @@ public class ForecastResponse {
         }
 
         String[] dayNames = new DateFormatSymbols().getShortWeekdays();
+        Float meanTemp = temporalMeanCalculator.calculateMean();
 
-        return String.format("%s\n%s: %s-%s-%s°%s",
+        return String.format("%s\n%s: %s-%s%s°%s",
                 hourly.summary,
                 dayNames[day],
                 Math.round(minTemp),
-                Math.round(temporalMeanCalculator.calculateMean()),
+                meanTemp != null ? Math.round(meanTemp) + "-" : "",
                 Math.round(maxTemp),
                 mightRain ? " ☔" : "");
     }
