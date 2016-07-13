@@ -10,13 +10,18 @@ public class CoinDeskCurrentPriceResponse {
     public class BitcoinPriceIndex {
 
         public Currency USD;
+        public Currency GBP;
 
         public class Currency {
             public float rate_float;
         }
     }
 
-    public Float getUsdRate() {
+    public float getUsdRate() {
         return this.bpi.USD.rate_float;
+    }
+
+    public float getGbpRate() {
+        return this.bpi.GBP.rate_float;
     }
 }

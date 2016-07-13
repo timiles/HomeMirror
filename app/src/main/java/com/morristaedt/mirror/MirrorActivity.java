@@ -29,6 +29,7 @@ import com.morristaedt.mirror.modules.NewsModule;
 import com.morristaedt.mirror.modules.XKCDModule;
 import com.morristaedt.mirror.modules.YahooFinanceModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
+import com.morristaedt.mirror.requests.CoinDeskCurrentPriceResponse;
 import com.morristaedt.mirror.requests.YahooStockResponse;
 import com.morristaedt.mirror.utils.WeekUtil;
 import com.morristaedt.mirror.views.ScrollTextView;
@@ -84,12 +85,15 @@ public class MirrorActivity extends ActionBarActivity {
 
     private BitcoinPriceModule.CurrentPriceListener mBitcoinPriceListener = new BitcoinPriceModule.CurrentPriceListener() {
         @Override
-        public void onBitcoinPriceUpdated(Float price) {
-            if (price == null) {
+        public void onBitcoinPriceUpdated(CoinDeskCurrentPriceResponse response) {
+            if (response == null) {
                 mBitcoinPrice.setVisibility(View.GONE);
             } else {
                 mBitcoinPrice.setVisibility(View.VISIBLE);
-                mBitcoinPrice.setText("1 BTC = $" + price);
+                String priceString = String.format("1 BTC = $%s / £%s",
+                        Math.round(response.getUsdRate()),
+                        Math.round(response.getGbpRate()));
+                mBitcoinPrice.setText(priceString);
             }
         }
     };
