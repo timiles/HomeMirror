@@ -26,7 +26,7 @@ public class BitcoinPriceModule {
             @Override
             protected CoinDeskCurrentPriceResponse doInBackground(Void... params) {
                 RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("https://api.coindesk.com/v1")
+                        .setEndpoint("http://api.coindesk.com/v2")
                         .build();
 
                 CoinDeskApiRequest request = restAdapter.create(CoinDeskApiRequest.class);
