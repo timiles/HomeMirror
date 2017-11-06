@@ -43,7 +43,7 @@ public class ExchangeRateModule {
                 try {
                     YahooXchangeResponse response = service.getXchangeData(query, env, format);
                     return new Float(response.getRate());
-                } catch (RetrofitError error) {
+                } catch (Exception error) {
                     Log.w("ExchangeRateModule", "YahooFinance error: " + error.getMessage());
                     return null;
                 }

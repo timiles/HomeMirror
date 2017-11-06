@@ -44,7 +44,7 @@ public class YahooFinanceModule {
                 String format = "json";
                 try {
                     return service.getStockData(query, env, format);
-                } catch (RetrofitError error) {
+                } catch (Exception error) {
                     Log.w("YahooFinanceModule", "YahooFinance error: " + error.getMessage());
                     return null;
                 }
