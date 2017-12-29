@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:textSize="36sp" />
+            android:textSize="28sp" />
 
         <TextView
             style="@style/MirrorListText"
