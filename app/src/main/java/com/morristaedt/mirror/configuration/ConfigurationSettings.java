@@ -237,7 +237,7 @@ public class ConfigurationSettings {
         return mStockTickerSymbol;
     }
 
-    public boolean showBitcoinPrice() { return true; }
+    public String[] getCryptocurrenciesToShow() { return new String[]{ "BTC", "ETH" }; }
 
     public boolean showExchangeRate() { return !TextUtils.isEmpty(getFromCurrency()) && !TextUtils.isEmpty(getToCurrency()); }
 

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
 import com.morristaedt.mirror.modules.BirthdayModule;
-import com.morristaedt.mirror.modules.BitcoinPriceModule;
+import com.morristaedt.mirror.modules.CryptocurrencyModule;
 import com.morristaedt.mirror.modules.CalendarModule;
 import com.morristaedt.mirror.modules.ChoresModule;
 import com.morristaedt.mirror.modules.CountdownModule;
@@ -30,13 +30,17 @@ import com.morristaedt.mirror.modules.NewsModule;
 import com.morristaedt.mirror.modules.XKCDModule;
 import com.morristaedt.mirror.modules.YahooFinanceModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
-import com.morristaedt.mirror.requests.CoinDeskCurrentPriceResponse;
+import com.morristaedt.mirror.requests.CoinbaseSpotPriceResponse;
 import com.morristaedt.mirror.requests.YahooStockResponse;
 import com.morristaedt.mirror.utils.WeekUtil;
 import com.morristaedt.mirror.views.ScrollTextView;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MirrorActivity extends ActionBarActivity {
 
@@ -49,7 +53,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mHelloText;
     private TextView mBikeTodayText;
     private TextView mStockText;
-    private TextView mBitcoinPrice;
+    private TextView mCryptocurrencyPrices;
     private TextView mExchangeRate;
     private TextView mMoodText;
     private View mWaterPlants;
@@ -85,17 +89,19 @@ public class MirrorActivity extends ActionBarActivity {
         }
     };
 
-    private BitcoinPriceModule.CurrentPriceListener mBitcoinPriceListener = new BitcoinPriceModule.CurrentPriceListener() {
+    private static Map<String, Integer> cryptocurrencyPrices = new HashMap<>();
+
+    private CryptocurrencyModule.CurrentPriceListener mCryptocurrencyPriceListener = new CryptocurrencyModule.CurrentPriceListener() {
         @Override
-        public void onBitcoinPriceUpdated(CoinDeskCurrentPriceResponse response) {
-            if (response == null) {
-                mBitcoinPrice.setVisibility(View.GONE);
-            } else {
-                mBitcoinPrice.setVisibility(View.VISIBLE);
-                String priceString = String.format("BTC: $%s / £%s",
-                        Math.round(response.getUsdRate()),
-                        Math.round(response.getGbpRate()));
-                mBitcoinPrice.setText(priceString);
+        public void onPriceUpdated(CoinbaseSpotPriceResponse response) {
+            if (response != null) {
+                cryptocurrencyPrices.put(response.data.base, Math.round(response.data.amount));
+                mCryptocurrencyPrices.setVisibility(View.VISIBLE);
+                List<String> priceStrings = new ArrayList<>();
+                for (String key : cryptocurrencyPrices.keySet()) {
+                    priceStrings.add(String.format("%s: £%s", key, cryptocurrencyPrices.get(key)));
+                }
+                mCryptocurrencyPrices.setText(TextUtils.join(", ", priceStrings));
             }
         }
     };
@@ -224,7 +230,7 @@ public class MirrorActivity extends ActionBarActivity {
         mGroceryList = findViewById(R.id.grocery_list);
         mBikeTodayText = (TextView) findViewById(R.id.can_bike);
         mStockText = (TextView) findViewById(R.id.stock_text);
-        mBitcoinPrice = (TextView) findViewById(R.id.bitcoin_price);
+        mCryptocurrencyPrices = (TextView) findViewById(R.id.cryptocurrency_prices);
         mExchangeRate = (TextView) findViewById(R.id.exchange_rate);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mXKCDImage = (ImageView) findViewById(R.id.xkcd_image);
@@ -327,10 +333,13 @@ public class MirrorActivity extends ActionBarActivity {
             mStockText.setVisibility(View.GONE);
         }
 
-        if (mConfigSettings.showBitcoinPrice()) {
-            BitcoinPriceModule.getBitcoinPrice(mBitcoinPriceListener);
+        String[] cryptocurrenciesToShow = mConfigSettings.getCryptocurrenciesToShow();
+        if (cryptocurrenciesToShow.length > 0) {
+            for (String cryptocurrency : cryptocurrenciesToShow) {
+                CryptocurrencyModule.getPrice(cryptocurrency, mCryptocurrencyPriceListener);
+            }
         } else {
-            mBitcoinPrice.setVisibility(View.GONE);
+            mCryptocurrencyPrices.setVisibility(View.GONE);
         }
 
         if (mConfigSettings.showExchangeRate()) {

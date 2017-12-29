@@ -129,10 +129,11 @@
         <TextView
             style="@style/MirrorListText"
             tools:visibility="gone"
-            android:id="@+id/bitcoin_price"
+            android:id="@+id/cryptocurrency_prices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textSize="36sp" />
 
         <TextView
             style="@style/MirrorListText"
