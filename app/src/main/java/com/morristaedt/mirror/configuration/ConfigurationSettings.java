@@ -25,12 +25,9 @@ public class ConfigurationSettings {
 
     private static final String FORECAST_UNITS = "forecast_units";
     private static final String TEXT_COLOR = "text_color";
-    private static final String BIKING_HINT = "biking_hint";
     private static final String USE_MOOD_DETECTION = "mood_detection";
     private static final String SHOW_CALENDAR = "show_calendar";
     private static final String SHOW_HEADLINE = "show_headline";
-    private static final String SHOW_XKCD = "xkcd";
-    private static final String INVERT_XKCD = "invert_xkcd";
     private static final String LAT = "lat";
     private static final String LON = "lon";
     private static final String STOCK_TICKER = "stock_ticker";
@@ -42,12 +39,9 @@ public class ConfigurationSettings {
 
     private String mForecastUnits;
 
-    private boolean mShowBikingHint;
     private boolean mShowMoodDetection;
     private boolean mShowNextCalendarEvent;
     private boolean mShowNewsHeadline;
-    private boolean mShowXKCD;
-    private boolean mInvertXKCD;
     private boolean mShowCountdown;
 
     private long mCountdownEnd;
@@ -67,12 +61,9 @@ public class ConfigurationSettings {
     private void readPrefs() {
         mForecastUnits = mSharedPrefs.getString(FORECAST_UNITS, ForecastRequest.UNITS_US);
         mTextColor = mSharedPrefs.getInt(TEXT_COLOR, Color.WHITE);
-        mShowBikingHint = mSharedPrefs.getBoolean(BIKING_HINT, false);
         mShowMoodDetection = mSharedPrefs.getBoolean(USE_MOOD_DETECTION, false);
         mShowNextCalendarEvent = mSharedPrefs.getBoolean(SHOW_CALENDAR, false);
         mShowNewsHeadline = mSharedPrefs.getBoolean(SHOW_HEADLINE, false);
-        mShowXKCD = mSharedPrefs.getBoolean(SHOW_XKCD, false);
-        mInvertXKCD = mSharedPrefs.getBoolean(INVERT_XKCD, false);
         mShowCountdown = mSharedPrefs.getBoolean(SHOW_COUNTDOWN, false);
         mCountdownEnd = mSharedPrefs.getLong(COUNTDOWN_END, System.currentTimeMillis());
 
@@ -107,13 +98,6 @@ public class ConfigurationSettings {
         editor.apply();
     }
 
-    public void setShowBikingHint(boolean show) {
-        mShowBikingHint = show;
-        SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putBoolean(BIKING_HINT, show);
-        editor.apply();
-    }
-
     public void setShowMoodDetection(boolean show) {
         mShowMoodDetection = show;
         SharedPreferences.Editor editor = mSharedPrefs.edit();
@@ -132,15 +116,6 @@ public class ConfigurationSettings {
         mShowNewsHeadline = show;
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putBoolean(SHOW_HEADLINE, show);
-        editor.apply();
-    }
-
-    public void setXKCDPreference(boolean showXKCD, boolean invertXKCDColors) {
-        mShowXKCD = showXKCD;
-        mInvertXKCD = invertXKCDColors;
-        SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putBoolean(SHOW_XKCD, showXKCD);
-        editor.putBoolean(INVERT_XKCD, invertXKCDColors);
         editor.apply();
     }
 
@@ -189,10 +164,6 @@ public class ConfigurationSettings {
         return mTextColor;
     }
 
-    public boolean showBikingHint() {
-        return mShowBikingHint;
-    }
-
     public boolean showMoodDetection() {
         return mShowMoodDetection;
     }
@@ -203,14 +174,6 @@ public class ConfigurationSettings {
 
     public boolean showNewsHeadline() {
         return mShowNewsHeadline;
-    }
-
-    public boolean showXKCD() {
-        return mShowXKCD;
-    }
-
-    public boolean invertXKCD() {
-        return mInvertXKCD;
     }
 
     public boolean showCountdown(){

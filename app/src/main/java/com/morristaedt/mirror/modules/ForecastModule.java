@@ -25,8 +25,6 @@ public class ForecastModule {
 
     public interface ForecastListener {
         void onWeatherToday(String weatherToday);
-
-        void onShouldBike(boolean showToday, boolean shouldBike);
     }
 
     /**
@@ -60,37 +58,7 @@ public class ForecastModule {
             protected void onPostExecute(ForecastResponse forecastResponse) {
                 if (forecastResponse != null) {
                     listener.onWeatherToday(forecastResponse.getNextDaytimeSummary());
-
-                    if (forecastResponse.hourly != null && forecastResponse.hourly.data != null && (ConfigurationSettings.isDemoMode() || WeekUtil.isWeekdayBeforeFive())) {
-                        listener.onShouldBike(true, shouldBikeToday(forecastResponse.hourly.data));
-                    } else {
-                        listener.onShouldBike(false, true);
-                    }
                 }
-            }
-
-            private boolean shouldBikeToday(List<ForecastResponse.Hour> hours) {
-                int dayOfMonthToday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-                for (ForecastResponse.Hour hour : hours) {
-                    Calendar hourCalendar = hour.getCalendar();
-
-                    // Only check hourly forecast for today
-                    if (hourCalendar.get(Calendar.DAY_OF_MONTH) == dayOfMonthToday) {
-                        int hourOfDay = hourCalendar.get(Calendar.HOUR_OF_DAY);
-                        if (hourOfDay >= 7 && hourOfDay <= 11) {
-                            if (hour.precipProbability >= 0.3) {
-                                return false;
-                            }
-                        } else if (hourOfDay >= 17 && hourOfDay <= 19) {
-                            if (hour.precipProbability >= 0.3) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-
-                return true;
             }
         }.execute();
 

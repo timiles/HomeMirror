@@ -41,12 +41,9 @@ public class SetUpActivity extends Activity {
     private Location mLocation;
 
     private RadioGroup mTemperatureChoice;
-    private CheckBox mBikingCheckbox;
     private CheckBox mMoodDetectionCheckbox;
     private CheckBox mShowNextCaledarEventCheckbox;
     private CheckBox mShowNewsHeadlineCheckbox;
-    private CheckBox mXKCDCheckbox;
-    private CheckBox mXKCDInvertCheckbox;
     private CheckBox mCountdownCheckbox;
     private CheckBox mNewCountdownCheckbox;
     private View mNewCountdownView;
@@ -144,9 +141,6 @@ public class SetUpActivity extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        mBikingCheckbox = (CheckBox) findViewById(R.id.biking_checkbox);
-        mBikingCheckbox.setChecked(mConfigSettings.showBikingHint());
-
         mMoodDetectionCheckbox = (CheckBox) findViewById(R.id.mood_detection_checkbox);
         mMoodDetectionCheckbox.setChecked(mConfigSettings.showMoodDetection());
 
@@ -155,12 +149,6 @@ public class SetUpActivity extends Activity {
 
         mShowNewsHeadlineCheckbox = (CheckBox) findViewById(R.id.headline_checkbox);
         mShowNewsHeadlineCheckbox.setChecked(mConfigSettings.showNewsHeadline());
-
-        mXKCDCheckbox = (CheckBox) findViewById(R.id.xkcd_checkbox);
-        mXKCDCheckbox.setChecked(mConfigSettings.showXKCD());
-
-        mXKCDInvertCheckbox = (CheckBox) findViewById(R.id.xkcd_invert_checkbox);
-        mXKCDInvertCheckbox.setChecked(mConfigSettings.invertXKCD());
 
         mLatitude = (EditText) findViewById(R.id.latitude);
         mLongitude = (EditText) findViewById(R.id.longitude);
@@ -291,11 +279,9 @@ public class SetUpActivity extends Activity {
 
     private void saveFields() {
         mConfigSettings.setIsCelsius(mTemperatureChoice.getCheckedRadioButtonId() == R.id.celsius);
-        mConfigSettings.setShowBikingHint(mBikingCheckbox.isChecked());
         mConfigSettings.setShowMoodDetection(mMoodDetectionCheckbox.isChecked());
         mConfigSettings.setShowNextCalendarEvent(mShowNextCaledarEventCheckbox.isChecked());
         mConfigSettings.setShowNewsHeadline(mShowNewsHeadlineCheckbox.isChecked());
-        mConfigSettings.setXKCDPreference(mXKCDCheckbox.isChecked(), mXKCDInvertCheckbox.isChecked());
         mConfigSettings.setShowCountdown(mCountdownCheckbox.isChecked());
         if (mNewCountdownCheckbox.isChecked()){
             mConfigSettings.setCountdownTime(
