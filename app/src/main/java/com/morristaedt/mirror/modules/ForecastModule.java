@@ -24,7 +24,7 @@ import retrofit.RetrofitError;
 public class ForecastModule {
 
     public interface ForecastListener {
-        void onWeatherToday(String weatherToday);
+        void onWeatherToday(String summary, String data);
     }
 
     /**
@@ -57,7 +57,8 @@ public class ForecastModule {
             @Override
             protected void onPostExecute(ForecastResponse forecastResponse) {
                 if (forecastResponse != null) {
-                    listener.onWeatherToday(forecastResponse.getNextDaytimeSummary());
+                    listener.onWeatherToday(forecastResponse.getNextDaytimeSummary(),
+                            forecastResponse.getNextDaytimeData());
                 }
             }
         }.execute();
@@ -94,7 +95,7 @@ public class ForecastModule {
             protected void onPostExecute(OpenWeatherResponse response) {
                 if (response != null) {
                     if (response.main != null) {
-                        listener.onWeatherToday(response.main.getDisplayTemperature() + " " + response.getWeatherDescription());
+                        listener.onWeatherToday(response.getWeatherDescription(), response.main.getDisplayTemperature());
                     }
                 }
             }

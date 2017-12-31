@@ -18,6 +18,14 @@ public class ForecastResponse {
     public ForecastHourly hourly;
 
     public String getNextDaytimeSummary() {
+        if (hourly == null) {
+            return null;
+        }
+
+        return hourly.summary;
+    }
+
+    public String getNextDaytimeData() {
         if (hourly == null || hourly.data == null) {
             return null;
         }
@@ -54,8 +62,7 @@ public class ForecastResponse {
         String[] dayNames = new DateFormatSymbols().getShortWeekdays();
         Float meanTemp = temporalMeanCalculator.calculateMean();
 
-        return String.format("%s\n%s: %s-%s%s°%s",
-                hourly.summary,
+        return String.format("%s: %s-%s%s°%s",
                 dayNames[day],
                 Math.round(minTemp),
                 meanTemp != null ? Math.round(meanTemp) + "-" : "",

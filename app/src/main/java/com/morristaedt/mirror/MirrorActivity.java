@@ -49,6 +49,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mBirthdayText;
     private TextView mDayText;
     private TextView mWeatherSummary;
+    private TextView mWeatherData;
     private TextView mStockText;
     private TextView mCryptocurrencyPrices;
     private TextView mExchangeRate;
@@ -106,10 +107,14 @@ public class MirrorActivity extends ActionBarActivity {
 
     private ForecastModule.ForecastListener mForecastListener = new ForecastModule.ForecastListener() {
         @Override
-        public void onWeatherToday(String weatherToday) {
-            if (!TextUtils.isEmpty(weatherToday)) {
+        public void onWeatherToday(String summary, String data) {
+            if (!TextUtils.isEmpty(summary)) {
                 mWeatherSummary.setVisibility(View.VISIBLE);
-                mWeatherSummary.setText(weatherToday);
+                mWeatherSummary.setText(summary);
+            }
+            if (!TextUtils.isEmpty(data)) {
+                mWeatherData.setVisibility(View.VISIBLE);
+                mWeatherData.setText(data);
             }
         }
     };
@@ -197,6 +202,7 @@ public class MirrorActivity extends ActionBarActivity {
         mBirthdayText = (TextView) findViewById(R.id.birthday_text);
         mDayText = (TextView) findViewById(R.id.day_text);
         mWeatherSummary = (TextView) findViewById(R.id.weather_summary);
+        mWeatherData = (TextView) findViewById(R.id.weather_data);
         mStockText = (TextView) findViewById(R.id.stock_text);
         mCryptocurrencyPrices = (TextView) findViewById(R.id.cryptocurrency_prices);
         mExchangeRate = (TextView) findViewById(R.id.exchange_rate);
