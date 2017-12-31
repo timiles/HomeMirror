@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class MirrorActivity extends ActionBarActivity {
         }
     };
 
-    private static Map<String, Integer> cryptocurrencyPrices = new HashMap<>();
+    private static Map<String, Integer> cryptocurrencyPrices = new LinkedHashMap<>();
 
     private CryptocurrencyModule.CurrentPriceListener mCryptocurrencyPriceListener = new CryptocurrencyModule.CurrentPriceListener() {
         @Override
@@ -80,7 +81,7 @@ public class MirrorActivity extends ActionBarActivity {
                 mCryptocurrencyPrices.setVisibility(View.VISIBLE);
                 List<String> priceStrings = new ArrayList<>();
                 for (String key : cryptocurrencyPrices.keySet()) {
-                    priceStrings.add(String.format("%s: £%s", key, cryptocurrencyPrices.get(key)));
+                    priceStrings.add(String.format("%s:\u00A0£%s", key, cryptocurrencyPrices.get(key)));
                 }
                 mCryptocurrencyPrices.setText(TextUtils.join(", ", priceStrings));
             }

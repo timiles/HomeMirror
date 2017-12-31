@@ -200,7 +200,7 @@ public class ConfigurationSettings {
         return mStockTickerSymbol;
     }
 
-    public String[] getCryptocurrenciesToShow() { return new String[]{ "BTC", "ETH" }; }
+    public String[] getCryptocurrenciesToShow() { return new String[]{ "BTC", "BCH", "ETH" }; }
 
     public boolean showExchangeRate() { return !TextUtils.isEmpty(getFromCurrency()) && !TextUtils.isEmpty(getToCurrency()); }
 
