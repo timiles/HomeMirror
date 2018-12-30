@@ -31,7 +31,7 @@ public class ExchangeRateModule {
             @Override
             protected Float doInBackground(Void... params) {
                 RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("http://query.yahooapis.com/v1/public")
+                        .setEndpoint("https://query.yahooapis.com/v1/public")
                         .build();
 
                 YahooFinanceRequest service = restAdapter.create(YahooFinanceRequest.class);

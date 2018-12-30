@@ -72,17 +72,20 @@ public class MirrorActivity extends ActionBarActivity {
         }
     };
 
-    private static Map<String, Integer> cryptocurrencyPrices = new LinkedHashMap<>();
+    private static Map<String, String> cryptocurrencyPrices = new LinkedHashMap<>();
 
     private CryptocurrencyModule.CurrentPriceListener mCryptocurrencyPriceListener = new CryptocurrencyModule.CurrentPriceListener() {
         @Override
-        public void onPriceUpdated(CoinbaseSpotPriceResponse response) {
-            if (response != null) {
-                cryptocurrencyPrices.put(response.data.base, Math.round(response.data.amount));
+        public void onPriceUpdated(CryptocurrencyModule.CryptocurrencyPrice price) {
+            if (price != null) {
+                cryptocurrencyPrices.put(price.cryptocurrency,
+                    price.amount >= 100 ?
+                        String.format("%s%s", price.fiatCurrencySymbol, Math.round(price.amount)) :
+                        String.format("%s%s", price.fiatCurrencySymbol, Math.round(price.amount * 100) / 100f));
                 mCryptocurrencyPrices.setVisibility(View.VISIBLE);
                 List<String> priceStrings = new ArrayList<>();
                 for (String key : cryptocurrencyPrices.keySet()) {
-                    priceStrings.add(String.format("%s:\u00A0£%s", key, cryptocurrencyPrices.get(key)));
+                    priceStrings.add(String.format("%s:\u00A0%s", key, cryptocurrencyPrices.get(key)));
                 }
                 mCryptocurrencyPrices.setText(TextUtils.join(", ", priceStrings));
             }
