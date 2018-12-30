@@ -101,7 +101,7 @@ public class MirrorActivity extends ActionBarActivity {
                 mExchangeRate.setVisibility(View.VISIBLE);
                 String exchangeRateString = String.format("%s: %s %s",
                         mConfigSettings.getFromCurrency(),
-                        rate,
+                        Math.round(rate * 100) / 100f,
                         mConfigSettings.getToCurrency());
                 mExchangeRate.setText(exchangeRateString);
             }

@@ -10,7 +10,4 @@ public interface YahooFinanceRequest {
 
     @GET("/yql")
     YahooStockResponse getStockData(@Query("q") String query, @Query("env") String env, @Query("format") String format);
-
-    @GET("/yql")
-    YahooXchangeResponse getXchangeData(@Query("q") String query, @Query("env") String env, @Query("format") String format);
 }

@@ -4,11 +4,10 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.morristaedt.mirror.requests.YahooFinanceRequest;
-import com.morristaedt.mirror.requests.YahooXchangeResponse;
+import com.morristaedt.mirror.requests.CurrencyConverterApiRequest;
+import com.morristaedt.mirror.requests.CurrencyConverterConvertResponse;
 
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 
 /**
  * Created by timiles on 13/07/2016.
@@ -31,20 +30,17 @@ public class ExchangeRateModule {
             @Override
             protected Float doInBackground(Void... params) {
                 RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("https://query.yahooapis.com/v1/public")
+                        .setEndpoint("https://free.currencyconverterapi.com/api/v5")
                         .build();
 
-                YahooFinanceRequest service = restAdapter.create(YahooFinanceRequest.class);
+                CurrencyConverterApiRequest service = restAdapter.create(CurrencyConverterApiRequest.class);
 
-                String currencyPair = fromCurrency + toCurrency;
-                String query = "select * from yahoo.finance.xchange where pair in (\"" + currencyPair + "\")";
-                String env = "store://datatables.org/alltableswithkeys";
-                String format = "json";
                 try {
-                    YahooXchangeResponse response = service.getXchangeData(query, env, format);
-                    return new Float(response.getRate());
+                    CurrencyConverterConvertResponse response = service.convert(
+                            String.format("%s_%s", fromCurrency, toCurrency));
+                    return new Float(response.getValue());
                 } catch (Exception error) {
-                    Log.w("ExchangeRateModule", "YahooFinance error: " + error.getMessage());
+                    Log.w("ExchangeRateModule", "ExchangeRateModule error: " + error.getMessage());
                     return null;
                 }
             }
