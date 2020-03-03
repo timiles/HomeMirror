@@ -26,6 +26,7 @@ import com.morristaedt.mirror.modules.ExchangeRateModule;
 import com.morristaedt.mirror.modules.ForecastModule;
 import com.morristaedt.mirror.modules.MoodModule;
 import com.morristaedt.mirror.modules.NewsModule;
+import com.morristaedt.mirror.modules.OddsModule;
 import com.morristaedt.mirror.modules.YahooFinanceModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
 import com.morristaedt.mirror.requests.CoinbaseSpotPriceResponse;
@@ -56,6 +57,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mMoodText;
     private MoodModule mMoodModule;
     private ScrollTextView mNewsHeadline;
+    private ScrollTextView mOdds;
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
     private TextView mCountdownText;
@@ -136,6 +138,20 @@ public class MirrorActivity extends ActionBarActivity {
         }
     };
 
+    private OddsModule.OddsListener mOddsListener = new OddsModule.OddsListener() {
+        @Override
+        public void onNewOdds(String odds) {
+            if (TextUtils.isEmpty(odds)) {
+                mOdds.setVisibility(View.GONE);
+            } else {
+                mOdds.setVisibility(View.VISIBLE);
+                mOdds.setText(odds);
+                mOdds.setRndDuration(60000);
+                mOdds.startScroll();
+            }
+        }
+    };
+
     private MoodModule.MoodListener mMoodListener = new MoodModule.MoodListener() {
         @Override
         public void onShouldGivePositiveAffirmation(final String affirmation) {
@@ -211,6 +227,7 @@ public class MirrorActivity extends ActionBarActivity {
         mExchangeRate = (TextView) findViewById(R.id.exchange_rate);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mNewsHeadline = (ScrollTextView) findViewById(R.id.news_headline);
+        mOdds = (ScrollTextView) findViewById(R.id.odds);
         mCalendarTitleText = (TextView) findViewById(R.id.calendar_title);
         mCalendarDetailsText = (TextView) findViewById(R.id.calendar_details);
         mCountdownText = (TextView) findViewById(R.id.countdown_text);
@@ -273,6 +290,8 @@ public class MirrorActivity extends ActionBarActivity {
         } else {
             mNewsHeadline.setVisibility(View.GONE);
         }
+
+        OddsModule.getOdds(mOddsListener);
 
         if (mConfigSettings.showNextCalendarEvent()) {
             CalendarModule.getCalendarEvents(this, mCalendarListener);

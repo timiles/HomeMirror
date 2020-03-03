@@ -85,7 +85,14 @@
         <com.morristaedt.mirror.views.ScrollTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="28sp"
             android:id="@+id/news_headline" />
+
+        <com.morristaedt.mirror.views.ScrollTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:id="@+id/odds" />
 
         <TextView
             android:id="@+id/stock_text"

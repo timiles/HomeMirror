@@ -43,15 +43,17 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.ahorn:android-rss:cf40b89'
-    compile 'com.google.android.gms:play-services-vision:8.1.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:22.0.0'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.ahorn:android-rss:cf40b89'
+    implementation 'com.google.android.gms:play-services-vision:8.1.0'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 }
 
 def signingFile = rootProject.file('signing.properties')
