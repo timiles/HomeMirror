@@ -146,7 +146,7 @@ public class MirrorActivity extends ActionBarActivity {
             } else {
                 mOdds.setVisibility(View.VISIBLE);
                 mOdds.setText(odds);
-                mOdds.setRndDuration(60000);
+                mOdds.setRndDuration(55000);
                 mOdds.startScroll();
             }
         }
