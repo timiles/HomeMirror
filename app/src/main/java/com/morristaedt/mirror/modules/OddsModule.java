@@ -47,7 +47,7 @@ public class OddsModule {
                                 Element section = sections.get(sectionIndex);
 
                                 String splitTitle = section.select(".split__title").text();
-                                Elements rows = section.select("table.market-table tr");
+                                Elements rows = section.select("table.market-table tbody tr");
 
                                 sb.append(title);
                                 sb.append(": ");
@@ -73,6 +73,7 @@ public class OddsModule {
                                         sb.append(profit);
                                     }
                                     catch (Exception e) {
+                                        Log.e("OddsModule", "Error calculating profit.", e);
                                     }
 
                                     sb.append(") ");
@@ -81,9 +82,17 @@ public class OddsModule {
                             }
                         }
                     }
-                    return sb.toString();
+                    String oddsText = sb.toString();
+                    int maxLength = 1200;
+                    if (oddsText.length() > maxLength) {
+                        oddsText = oddsText.substring(0, maxLength - 1) + "…";
+                    }
+                    return oddsText;
                 } catch (IOException e) {
                     Log.e("OddsModule", "Error parsing doc.", e);
+                    return null;
+                } catch (Exception e) {
+                    Log.e("OddsModule", "Error.", e);
                     return null;
                 }
             }
