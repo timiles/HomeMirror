@@ -43,10 +43,17 @@ public class OddsModule {
                             Elements sections = eventDoc.select("li.js-market");
 
                             // Take top 3 sections
-                            for (int sectionIndex = 0; sectionIndex < Math.min(3, sections.size()); sectionIndex++) {
-                                Element section = sections.get(sectionIndex);
+                            int sectionCount = 0;
+                            for (Element section : sections) {
+                                if (sectionCount >= Math.min(3, sections.size())) {
+                                    break;
+                                }
 
                                 String splitTitle = section.select(".split__title").text();
+                                if (splitTitle.equals("Price Boosts")) {
+                                    continue;
+                                }
+
                                 Elements rows = section.select("table.market-table tbody tr");
 
                                 sb.append(title);
@@ -79,11 +86,12 @@ public class OddsModule {
                                     sb.append(") ");
                                 }
                                 sb.append("        ");
+                                sectionCount++;
                             }
                         }
                     }
                     String oddsText = sb.toString();
-                    int maxLength = 1200;
+                    int maxLength = 1000;
                     if (oddsText.length() > maxLength) {
                         oddsText = oddsText.substring(0, maxLength - 1) + "…";
                     }
