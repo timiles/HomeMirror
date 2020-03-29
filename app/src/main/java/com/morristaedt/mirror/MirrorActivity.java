@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
 import com.morristaedt.mirror.modules.BirthdayModule;
+import com.morristaedt.mirror.modules.CoronavirusTrackerModule;
 import com.morristaedt.mirror.modules.CryptocurrencyModule;
 import com.morristaedt.mirror.modules.CalendarModule;
 import com.morristaedt.mirror.modules.CountdownModule;
@@ -58,6 +59,7 @@ public class MirrorActivity extends ActionBarActivity {
     private MoodModule mMoodModule;
     private ScrollTextView mNewsHeadline;
     private ScrollTextView mOdds;
+    private TextView mCoronavirusTrackerText;
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
     private TextView mCountdownText;
@@ -152,6 +154,18 @@ public class MirrorActivity extends ActionBarActivity {
         }
     };
 
+    private CoronavirusTrackerModule.CoronavirusTrackerListener mCoronavirusTrackerListener = new CoronavirusTrackerModule.CoronavirusTrackerListener() {
+        @Override
+        public void onUpdate(String summary) {
+            if (TextUtils.isEmpty(summary)) {
+                mCoronavirusTrackerText.setVisibility(View.GONE);
+            } else {
+                mCoronavirusTrackerText.setVisibility(View.VISIBLE);
+                mCoronavirusTrackerText.setText(summary);
+            }
+        }
+    };
+
     private MoodModule.MoodListener mMoodListener = new MoodModule.MoodListener() {
         @Override
         public void onShouldGivePositiveAffirmation(final String affirmation) {
@@ -228,6 +242,7 @@ public class MirrorActivity extends ActionBarActivity {
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mNewsHeadline = (ScrollTextView) findViewById(R.id.news_headline);
         mOdds = (ScrollTextView) findViewById(R.id.odds);
+        mCoronavirusTrackerText = (TextView) findViewById(R.id.coronavirus_tracker);
         mCalendarTitleText = (TextView) findViewById(R.id.calendar_title);
         mCalendarDetailsText = (TextView) findViewById(R.id.calendar_details);
         mCountdownText = (TextView) findViewById(R.id.countdown_text);
@@ -292,6 +307,7 @@ public class MirrorActivity extends ActionBarActivity {
         }
 
         OddsModule.getOdds(mOddsListener);
+        CoronavirusTrackerModule.getUpdate(mCoronavirusTrackerListener);
 
         if (mConfigSettings.showNextCalendarEvent()) {
             CalendarModule.getCalendarEvents(this, mCalendarListener);

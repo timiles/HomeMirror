@@ -95,6 +95,23 @@
             android:id="@+id/odds" />
 
         <TextView
+            android:id="@+id/coronavirus_tracker"
+            style="@style/MirrorText"
+            android:textSize="18sp"
+            android:layout_marginBottom="22sp"
+            android:padding="10sp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mirror_item_spacing"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+        />
+
+        <TextView
             android:id="@+id/stock_text"
             style="@style/MirrorListText"
             android:layout_width="match_parent"
