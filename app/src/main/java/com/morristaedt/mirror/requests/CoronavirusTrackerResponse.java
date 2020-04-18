@@ -8,34 +8,51 @@ import java.util.Date;
 
 public class CoronavirusTrackerResponse {
 
-    public Feature[] features;
+    public Overview overview;
 
-    public class Feature {
-        public FeatureAttributes attributes;
+    public class Overview {
+        public Region K02000001;
     }
 
-    public class FeatureAttributes {
-        public long DateVal;
-        public int TotalUKCases;
-        public int NewUKCases;
-        public int TotalUKDeaths;
-        public int DailyUKDeaths;
+    public class Region {
+        public Value totalCases;
+        public Value newCases;
+        public Value deaths;
+        public DailyData[] dailyDeaths;
+    }
+
+    public class Value {
+        public int value;
+    }
+
+    public class DailyData {
+        public String date;
+        public int value;
     }
 
     public String getSummary() {
-        if (features == null || features.length < 1) {
+        try {
+            if (overview == null) {
+                return null;
+            }
+
+            // K02000001 = UK data
+            Region data = overview.K02000001;
+            DailyData dailyDeaths = data.dailyDeaths[data.dailyDeaths.length - 1];
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dailyDeaths.date);
+            DateFormat dayAndMonth = new SimpleDateFormat("MMM dd");
+
+            return String.format("\uD83D\uDE37 %s: %s \uD83E\uDD12 (+%s%%), %s \uD83D\uDC7C (+%s%%)",
+                    dayAndMonth.format(date),
+                    data.totalCases.value,
+                    (int) Math.floor(100.0 * data.newCases.value / (data.totalCases.value - data.newCases.value)),
+                    data.deaths.value,
+                    (int) Math.floor(100.0 * dailyDeaths.value / (data.deaths.value - dailyDeaths.value)));
+        }
+        catch (Exception error) {
+            Log.w("CoronavirusTracker", "Error: " + error.getMessage());
             return null;
         }
-
-        FeatureAttributes data = features[0].attributes;
-        Date date = new Date(data.DateVal);
-        DateFormat dayAndMonth = new SimpleDateFormat("MMM dd");
-
-        return String.format("\uD83D\uDE37 %s: %s \uD83E\uDD12 (+%s%%), %s \uD83D\uDC7C (+%s%%)",
-                dayAndMonth.format(date),
-                data.TotalUKCases,
-                (int)Math.floor(100.0 * data.NewUKCases / (data.TotalUKCases - data.NewUKCases)),
-                data.TotalUKDeaths,
-                (int)Math.floor(100.0 * data.DailyUKDeaths / (data.TotalUKDeaths - data.DailyUKDeaths)));
     }
 }

@@ -1,9 +1,10 @@
 package com.morristaedt.mirror.requests;
 
 import retrofit.http.GET;
+import retrofit.http.Path;
 
 public interface CoronavirusTrackerRequest {
 
-    @GET("/0IrmI40n5ZYxTUrV/arcgis/rest/services/DailyIndicators/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*")
-    CoronavirusTrackerResponse getData();
+    @GET("/{fileName}")
+    CoronavirusTrackerResponse getData(@Path("fileName") String fileName);
 }
